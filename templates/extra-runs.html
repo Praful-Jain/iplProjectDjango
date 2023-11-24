@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Extra runs conceded per team in the year 2016.</h1>
+    <table border="2px", cellpadding="10px", style="margin: auto">
+        <tr>
+            <th>No.</th>
+            <th>Team</th>
+            <th>Extra Runs Conceded</th>
+        </tr>
+        {% for data in result %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{data.bowling_team}}</td>
+            <td>{{data.extra_run}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock  %}

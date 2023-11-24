@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Top 10 economical bowlers in the year 2015</h1>
+    <table border="2px", cellpadding="10px", style="margin: auto">
+        <tr>
+            <th>No.</th>
+            <th>Bowler</th>
+            <th>Economy Rate</th>
+        </tr>
+        {% for data in result %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{data.bowler}}</td>
+            <td>{{data.economy}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock  %}

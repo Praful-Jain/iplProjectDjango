@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Extra runs conceded per team in the year {{year}}.</h1>
+    <div id="extra-runs-chart"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var chartData = JSON.parse('{{ chart_data | escapejs }}');
+
+            Highcharts.chart('extra-runs-chart', {
+                chart: {
+                    type: 'column',
+                },
+                title: {
+                    text: 'Extra Runs Conceded in {{year}}',
+                },
+                xAxis: {
+                    categories: chartData.map(function (data) {
+                        return data.bowling_team;
+                    }),
+                    title: {
+                        text: 'Team',
+                    },
+                },
+                yAxis: {
+                    title: {
+                        text: 'Extra Runs',
+                    },
+                },
+                series: [{
+                    data: chartData.map(function (data) {
+                        return data.extra_run;
+                    }),
+                }],
+            });
+        });
+    </script>
+{% endblock %}

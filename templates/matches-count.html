@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Number of matches played per year for all the years in IPL.</h1>
+    <table border="2px", cellpadding="10px", style="margin: auto">
+        <tr>
+            <th>Season</th>
+            <th>Matches Played</th>
+        </tr>
+        {% for data in result %}
+        <tr>
+            <td>{{data.season}}</td>
+            <td>{{data.matches_count}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock  %}

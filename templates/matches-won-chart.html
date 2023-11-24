@@ -1,0 +1,42 @@
+{% extends 'base.html' %} 
+{% block content %}
+    <h1>Number of matches won per team per year in IPL.</h1>
+    <div id="matches-won-chart"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var chartData = JSON.parse('{{ chart_data | escapejs }}');
+            
+            Highcharts.chart('matches-won-chart', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Matches Won Per Team Per Year'
+                },
+                xAxis: {
+                    categories: Array.from(new Set(chartData.map(item => item.season))),
+                    title: {
+                        text: 'Year',
+                    },
+                },
+                yAxis: {
+                    title: {
+                        text: 'Matches Won'
+                    }
+                },
+                series: chartData.reduce(function (accumulator, currentValue) {
+                    var teamIndex = accumulator.findIndex(item => item.name === currentValue.winner);
+                    if (teamIndex === -1) {
+                        accumulator.push({
+                            name: currentValue.winner,
+                            data: [currentValue.matches_won]
+                        });
+                    } else {
+                        accumulator[teamIndex].data.push(currentValue.matches_won);
+                    }
+                    return accumulator;
+                }, [])
+            });
+        });
+    </script>
+{% endblock %}

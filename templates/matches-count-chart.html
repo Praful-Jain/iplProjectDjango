@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Number of matches played per year for all the years in IPL.</h1>
+    <div id="matches-played-chart"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var chartData = JSON.parse('{{ chart_data | escapejs }}');
+
+            Highcharts.chart('matches-played-chart', {
+                chart: {
+                    type: 'column',
+                },
+                title: {
+                    text: 'Matches Played per Year',
+                },
+                xAxis: {
+                    categories: chartData.map(function (data) {
+                        return data.season;
+                    }),
+                    title: {
+                        text: 'Year',
+                    },
+                },
+                yAxis: {
+                    title: {
+                        text: 'Count of Matches Played',
+                    },
+                },
+                series: [{
+                    data: chartData.map(function (data) {
+                        return data.matches_count;
+                    }),
+                }],
+            });
+        });
+    </script>
+{% endblock %}
