@@ -8,10 +8,11 @@ from .models import Matches, Deliveries
 
 # Number of matches played per year for all the years in IPL.
 def matches_played(request):
-    # 'obj' is queryset
+    # 'result' is a QuerySet
     result = Matches.objects.values('season').annotate(
         matches_count=Count('season')
     )
+    
     return JsonResponse(list(result),safe=False)
     # return render(request,'matches-count.html',{'result':result})
 
@@ -70,12 +71,12 @@ def home(request):
     
 # CHARTS
 def matches_played_chart(request):
-    response = matches_played('matches-count/')
-    chart_data = json.loads(response.content)
+    response = matches_played('matches-count/')     # JsonResponse
+    chart_data = json.loads(response.content)       # typeOf(chart_data) -> a list of dictionary [{},{}..]
     return render(request, 'matches-count-chart.html', {'chart_data': json.dumps(chart_data)})
 
 def matches_won_chart(request):
-    response = matches_won('matches-won/')
+    response = matches_won('matches-won/')      
     chart_data = json.loads(response.content)
     return render(request, 'matches-won-chart.html', {'chart_data': json.dumps(chart_data)})
 
